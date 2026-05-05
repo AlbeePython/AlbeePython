@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlbeePython | Portfolio</title>
+    <style>
+        :root {
+            --bg: #0b0f1a;
+            --accent: #22c55e;
+            --error: #ef4444;
+            --text: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+        /* --- ЭКРАН ЗАГРУЗКИ И ОШИБКИ (БЕЗ ИЗМЕНЕНИЙ) --- */
+        #loader { position: fixed; inset: 0; display: flex; z-index: 1000; background: var(--bg); transition: 0.5s; }
+        .loader-left { flex: 1; display: flex; flex-direction: column; justify-content: center; padding-left: 10%; }
+        .loader-right { flex: 1; background: url('1.png') center/cover no-repeat; filter: blur(20px) brightness(0.4); }
+        .welcome-title { font-size: 4rem; color: var(--accent); }
+        #error-screen { position: fixed; inset: 0; display: none; flex-direction: column; justify-content: center; align-items: center; background: var(--bg); z-index: 2000; }
+        .incognito-hint:hover::after { content: 'ctrl + shift + n'; color: var(--error); }
+        .incognito-hint::after { content: 'инкогнито'; }
+
+        /* --- ГЛАВНЫЙ ЭКРАН --- */
+        #main-content { opacity: 0; transition: 1.5s; }
+        .hero { 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            height: 100vh; 
+            padding: 0 10%;
+        }
+
+        /* ИСПРАВЛЕННАЯ ССЫЛКА (БЕЗ МЕРЦАНИЯ) */
+        .github-link {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .github-prefix {
+            color: #fff;
+            max-width: 500px;
+            overflow: hidden;
+            white-space: nowrap;
+            transition: max-width 0.5s ease, opacity 0.3s;
+            opacity: 1;
+        }
+
+        .github-link:hover { transform: scale(1.1); }
+        .github-link:hover .github-prefix {
+            max-width: 0;
+            opacity: 0;
+        }
+
+        .full-img { 
+            width: 45%; 
+            height: 60vh; 
+            background: url('1.png') center/cover no-repeat; 
+            border-radius: 40px; 
+            box-shadow: 0 20px 80px rgba(0,0,0,0.6);
+        }
+
+        /* --- НОВЫЕ СЕКЦИИ ПРИ СКРОЛЛЕ --- */
+        .content-section {
+            padding: 100px 10%;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            border-left: 5px solid var(--accent);
+            padding-left: 20px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
+        }
+
+        .card:hover { background: rgba(34, 197, 94, 0.1); transform: translateY(-10px); }
+        .card h3 { color: var(--accent); margin-bottom: 15px; }
+
+        /* Анимация появления при скролле */
+        .reveal { opacity: 0; transform: translateY(30px); transition: 1s all ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Состояния */
+        .state-loaded #loader { opacity: 0; visibility: hidden; }
+        .state-loaded #main-content { opacity: 1; }
+        .state-error #error-screen { display: flex; }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="loader-left">
+            <h1 class="welcome-title">Добро пожаловать!</h1>
+            <p>Загружаем страничку...</p>
+        </div>
+        <div class="loader-right"></div>
+    </div>
+
+    <div id="error-screen">
+        <h1 style="font-size: 5rem; color: var(--error);">УПС!</h1>
+        <p>Не удалось загрузить контент. Попробуйте <span class="incognito-hint" style="color: var(--accent); cursor: pointer;"></span></p>
+    </div>
+
+    <div id="main-content">
+        <!-- Главная -->
+        <section class="hero">
+            <div class="hero-text">
+                <a href="https://github.com/AlbeePython" class="github-link">
+                    <span class="github-prefix">github.com/</span>@AlbeePython
+                </a>
+                <p style="margin-top: 15px; font-size: 1.2rem; color: #94a3b8;">Python & C++ Developer. Программирование — это искусство.</p>
+            </div>
+            <div class="full-img"></div>
+        </section>
+
+        <!-- Обо мне -->
+        <section class="content-section reveal">
+            <h2 class="section-title">Обо мне</h2>
+            <div class="info-grid">
+                <div class="card">
+                    <h3>Backend</h3>
+                    <p>Разработка серверной логики на Python. Создание ботов, парсеров и API систем любой сложности.</p>
+                </div>
+                <div class="card">
+                    <h3>Software</h3>
+                    <p>Написание системного софта на C++. Оптимизация производительности и работа с памятью.</p>
+                </div>
+                <div class="card">
+                    <h3>Инструменты</h3>
+                    <p>Активно использую Git, Docker и облачные технологии для деплоя своих решений.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Навыки -->
+        <section class="content-section reveal">
+            <h2 class="section-title">Мои проекты</h2>
+            <div class="info-grid">
+                <div class="card">
+                    <h3>Universal Customize Tool</h3>
+                    <p>Мощная утилита для настройки Windows "под себя".</p>
+                </div>
+                <div class="card">
+                    <h3>A-Launcher</h3>
+                    <p>Кастомный лаунчер с гибкой системой шаблонов.</p>
+                </div>
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 50px; color: #444;">
+            &copy; 2026 AlbeePython | Трава успешно потрогана 🌿
+        </footer>
+    </div>
+
+    <script>
+        // Логика загрузки
+        const loadTime = Math.floor(Math.random() * 4000) + 1000;
+        const willFail = loadTime > 4800;
+
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (willFail) document.body.classList.add('state-error');
+                else document.body.classList.add('state-loaded');
+            }, loadTime);
+        });
+
+        // Скрипт появления при скролле
+        window.addEventListener('scroll', () => {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const revealTop = el.getBoundingClientRect().top;
+                if (revealTop < windowHeight - 100) el.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
